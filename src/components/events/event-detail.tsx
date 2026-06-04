@@ -28,6 +28,31 @@ interface EventDetailProps {
   eventId: string;
 }
 
+/* ✅ FIXED: MetaItem added properly */
+function MetaItem({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ElementType;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <Icon className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-white/20" />
+      <div className="flex flex-col gap-0.5">
+        <span className="font-mono text-[9px] uppercase tracking-widest text-white/20">
+          {label}
+        </span>
+        <span className="font-mono text-[11px] uppercase tracking-wider text-white/60">
+          {children}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export function EventDetail({ eventId }: EventDetailProps) {
   const router = useRouter();
   const utils = api.useUtils();
@@ -116,25 +141,30 @@ export function EventDetail({ eventId }: EventDetailProps) {
               <MetaItem icon={Calendar} label="Start">
                 {format(new Date(event.startTime), "MMM dd, yyyy · HH:mm")}
               </MetaItem>
+
               <MetaItem icon={Calendar} label="End">
                 {format(new Date(event.endTime), "MMM dd, yyyy · HH:mm")}
               </MetaItem>
+
               <MetaItem icon={Users} label="Teams">
                 {event.maxTeams} teams · {event.teamSize}v{event.teamSize}
               </MetaItem>
+
               <MetaItem icon={Trophy} label="Ranking">
                 {event.leaderboardCriteria.replace("_", " ")}
               </MetaItem>
+
               {event.prize && (
                 <MetaItem icon={Medal} label="Prize">
                   {event.prize}
                 </MetaItem>
               )}
+
               {event.registrationDeadline && (
                 <MetaItem icon={Clock} label="Reg. Deadline">
                   {format(
                     new Date(event.registrationDeadline),
-                    "MMM dd, yyyy",
+                    "MMM dd, yyyy"
                   )}
                 </MetaItem>
               )}
@@ -151,6 +181,7 @@ export function EventDetail({ eventId }: EventDetailProps) {
             <p className="font-mono text-[10px] uppercase tracking-widest text-white/20">
               Manage
             </p>
+
             {[
               { label: "Teams", href: `/events/${eventId}/teams` },
               { label: "Matches & Points", href: `/events/${eventId}/matches` },
@@ -199,6 +230,7 @@ export function EventDetail({ eventId }: EventDetailProps) {
   );
 }
 
+/* Winner Banner */
 function WinnerBanner({ eventId }: { eventId: string }) {
   const { data } = api.leaderboard.getByEvent.useQuery({ eventId });
   const winner = data?.rankings.find((r) => r.rank === 1);
@@ -223,27 +255,5 @@ function WinnerBanner({ eventId }: { eventId: string }) {
         </div>
       </div>
     </motion.div>
-  );
-}
-  icon: Icon,
-  label,
-  children,
-}: {
-  icon: React.ElementType;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <Icon className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-white/20" />
-      <div className="flex flex-col gap-0.5">
-        <span className="font-mono text-[9px] uppercase tracking-widest text-white/20">
-          {label}
-        </span>
-        <span className="font-mono text-[11px] uppercase tracking-wider text-white/60">
-          {children}
-        </span>
-      </div>
-    </div>
   );
 }

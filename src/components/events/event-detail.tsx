@@ -16,7 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "@/servertrpc/react";
+import { api } from "@/trpc/react";
 import { PageHeader } from "@/components/shared/page-header";
 import { EventStatusBadge } from "@/components/events/event-status-badge";
 import { RoleGate } from "@/components/shared/role-gate";

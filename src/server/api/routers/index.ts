@@ -87,7 +87,6 @@ export const eventRouter = createTRPCRouter({
               points: true,
             },
           },
-          winner: true,
         },
       });
 
